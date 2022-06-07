@@ -1,0 +1,55 @@
+---
+# vim: set ft=yaml:
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    ingressGateways:
+      - enabled: true
+        name: istio-ingressgateway
+    pilot:  # This is actually istiod
+      enabled: true
+  # Pull images from GCR to avoid docker hub rate limits
+  hub: gcr.io/istio-release
+  # JSON logging can help debugging issues
+  meshConfig:
+    accessLogEncoding: JSON  # Easy to parse with e.g. Loki
+    accessLogFile: /dev/stdout
+    # Makign all resources globally available to the mesh
+    defaultDestinationRuleExportTo:
+      - '*'
+    defaultServiceExportTo:
+      - '*'
+    defaultVirtualServiceExportTo:
+      - '*'
+    # Only one metric endpoint to scrape, pulls metrics from the app and merges it with envoy metrics
+    enablePrometheusMerge: true
+  values:
+    gateways:
+      # Network config magic begins here!
+      istio-ingressgateway:
+        type: NodePort # Expose istio endpoints as nodeport, check here for the configuration: https://istio.io/v1.5/docs/reference/config/installation-options/#gateways-options
+        ports:
+        - name: status-port
+          nodePort: 31521
+          port: 15021
+          protocol: TCP
+          targetPort: 15021
+        - name: http2
+          nodePort: 30080
+          port: 80
+          protocol: TCP
+          targetPort: 8080
+        - name: https
+          nodePort: 30443
+          port: 443
+          protocol: TCP
+          targetPort: 8443
+    global:
+      logAsJson: true
+      logging:
+        level: default:debug  # Helpful information when sth goes wrong, not very noisy
+      proxy:
+        autoInject: enabled  # Enable by default, disable by pod annotation
+        logLevel: info  # We want logs about xDS API updates when tracking down issues
+
