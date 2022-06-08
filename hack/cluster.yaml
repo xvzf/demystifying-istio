@@ -12,6 +12,12 @@ nodes:
   # Istio status port
   - containerPort: 31521
     hostPort: 31521
-- role: worker
-- role: worker
-- role: worker
+  # Envoy example nodeport
+  - containerPort: 31080
+    hostPort: 8080
+
+# In case you're running an M1 mac, this likely kills your machine :D
+#- role: worker
+#- role: worker
+#- role: worker
+

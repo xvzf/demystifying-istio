@@ -1,0 +1,9 @@
+---
+namespace: bookinfo
+resources:
+- ns.yaml
+- https://raw.githubusercontent.com/istio/istio/release-1.14/samples/bookinfo/platform/kube/bookinfo.yaml
+- https://raw.githubusercontent.com/istio/istio/release-1.14/samples/bookinfo/networking/bookinfo-gateway.yaml
+- https://raw.githubusercontent.com/istio/istio/release-1.14/samples/bookinfo/networking/destination-rule-all.yaml
+patches:
+- patches/bookinfo-gateway.yaml

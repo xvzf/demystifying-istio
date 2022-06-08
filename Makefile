@@ -22,7 +22,7 @@ bootstrap: bootstrap-cluster bootstrap-istio
 
 .PHONY: bootstrap-cluster
 bootstrap-cluster: install-kind
-	kind create cluster --config ./hack/cluster.yaml --wait 120s --name=$(CLUSTER_NAME)
+	DOCKER_DEFAULT_PLATFORM=linux/amd64 kind create cluster --config ./hack/cluster.yaml --wait 120s --name=$(CLUSTER_NAME)
 
 .PHONY: bootstrap-istio
 bootstrap-istio: install-istioctl ensure-context
@@ -41,3 +41,8 @@ bootstrap-istio: install-istioctl ensure-context
 .PHONY: teardown
 teardown:
 	kind delete cluster --name=$(CLUSTER_NAME)
+
+
+## Debug helpers using istioctl
+debug-igw-%:
+	.bin/istioctl pc $* -n istio-system $(shell kubectl get po -n istio-system -o name | grep ingress)
