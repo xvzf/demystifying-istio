@@ -45,4 +45,4 @@ teardown:
 
 ## Debug helpers using istioctl
 debug-igw-%:
-	.bin/istioctl pc $* -n istio-system $(shell kubectl get po -n istio-system -o name | grep ingress)
+	.bin/istioctl pc $* -n istio-system $(shell kubectl get po -n istio-system -o name | grep ingress | head -n1)
