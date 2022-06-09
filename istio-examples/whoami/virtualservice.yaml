@@ -1,0 +1,33 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: whoami
+spec:
+  gateways:
+  - whoami-gateway
+  hosts:
+  - whoami.127.0.0.1.nip.io
+  http:
+  - match:
+    - uri:
+        prefix: /
+     #headers:
+     #  test:
+     #    exact: ankorstore
+
+    retries:
+      attempts: 0
+
+#   retries:  # Configure retries
+#     attempts: 2
+#     perTryTimeout: 5s
+#     # Full list here: https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on
+#     retryOn: 5xx,gateway-error,reset,connect-failure  # Retry on network related errors
+#     retryRemoteLocalities: true  # Try a different pod, possibly in a different zone
+
+    route:
+    - destination:
+        host: whoami.whoami.svc.cluster.local
+        port:
+          number: 80

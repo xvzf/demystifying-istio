@@ -1,0 +1,37 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: whoami
+spec:
+  host: whoami.whoami.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+      # simple: LEAST_REQUEST
+#   connectionPool:
+#     http:
+#       http2MaxRequests: 100
+#       maxRequestsPerConnection: 10
+#   outlierDetection:  # aka circuit-breaking
+#     # consecutiveGatewayErrors: 1
+#     consecutive5xxErrors: 3
+#     interval: 10s
+#     baseEjectionTime: 2m
+#     maxEjectionPercent: 50  # Maximum of 50% of endpoints can be "disabled"
+#     # minHealthPercent: 60  # only enabel outlier detection whenever we have > 60% of endpoints in a healthy state
+
+
+# Locality failover from one region to another
+# trafficPolicy:
+#   loadBalancer:
+#     localityLbSetting:
+#       failover:
+#       - from: us-east
+#         to: eu-west
+#       - from: us-west
+#         to: us-east
+
+
+
+

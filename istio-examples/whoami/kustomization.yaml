@@ -1,0 +1,9 @@
+---
+namespace: whoami
+resources:
+- ns.yaml
+- deploy.yaml
+- gateway.yaml
+- virtualservice.yaml
+- destinationrule.yaml
+
