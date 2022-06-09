@@ -1,0 +1,40 @@
+# Admin exposure of the web-frontend
+admin:
+  address:
+    socket_address:
+      address: 127.0.0.1
+      port_value: 15000
+
+static_resources:
+  # This block can be dynamically configured
+  listeners:
+    - name: tcp-8080
+      address:
+        socket_address:
+          address: '0.0.0.0'
+          port_value: 8080
+      # This block can be dynamically configured
+      filter_chains:
+        - filters:
+            # This block can be dynamically configured
+            - name: envoy.filters.network.tcp_proxy
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+                stat_prefix: destination
+                cluster: upstream-cluster-cloudflare
+  # This block can be dynamically configured
+  clusters:
+    - name: upstream-cluster-cloudflare
+      connect_timeout: 30s
+      type: STATIC
+      # This block can be dynamically configured
+      load_assignment:
+        cluster_name: upstream-cluster-cloudflare
+        # This block can be dynamically configured
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: 1.1.1.1
+                      port_value: 80
