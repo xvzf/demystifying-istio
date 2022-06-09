@@ -4,7 +4,7 @@ kind: DestinationRule
 metadata:
   name: whoami
 spec:
-  host: whoami
+  host: whoami.whoami.svc.cluster.local
   trafficPolicy:
     loadBalancer:
       simple: ROUND_ROBIN

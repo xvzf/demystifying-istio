@@ -8,6 +8,7 @@ spec:
     app: whoami
   ports:
     - protocol: TCP
+      name: http
       port: 80
       targetPort: 80
 ---
@@ -32,3 +33,4 @@ spec:
           image: traefik/whoami:latest
           ports:
             - containerPort: 80
+              name: http
