@@ -12,7 +12,7 @@
 
 ## Accessing services
 
-- [Prometheus](http://prometheus.127.0.0.1.nip.io)
-- [Grafana](http://grafana.127.0.0.1.nip.io)
-- [Kiali](http://kiali.127.0.0.1.nip.io)
-- [Bookinfo](http://bookinfo.127.0.0.1.nip.io/productpage)
+- [Prometheus](http://prometheus.127.0.0.1.nip.io:8080)
+- [Grafana](http://grafana.127.0.0.1.nip.io:8080)
+- [Kiali](http://kiali.127.0.0.1.nip.io:8080)
+- [Bookinfo](http://bookinfo.127.0.0.1.nip.io:8080/productpage)
