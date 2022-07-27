@@ -23,3 +23,53 @@ A [KIND](https://kind.sigs.k8s.io/) based Kubernetes cluster on your notebook wi
 
 - [Grafana](http://grafana.127.0.0.1.nip.io:8080)
 - [Bookinfo](http://bookinfo.127.0.0.1.nip.io:8080/productpage)
+
+## Generating traffic
+The [hey](https://github.com/rakyll/hey) tool is easy to use and gives basic statistics on what's going on:
+
+```
+xvzf@ubuntu2204 ~/demystifying-istio (git)-[main] % hey -c 2 -n 50 http://bookinfo.127.0.0.1.nip.io:8080/productpage
+
+Summary:
+  Total:	1.4525 secs
+  Slowest:	0.1018 secs
+  Fastest:	0.0270 secs
+  Average:	0.0573 secs
+  Requests/sec:	34.4227
+
+  Total data:	247620 bytes
+  Size/request:	4952 bytes
+
+Response time histogram:
+  0.027 [1]	|■■■
+  0.034 [2]	|■■■■■■
+  0.042 [8]	|■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.049 [3]	|■■■■■■■■■
+  0.057 [11]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.064 [13]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.072 [5]	|■■■■■■■■■■■■■■■
+  0.079 [3]	|■■■■■■■■■
+  0.087 [1]	|■■■
+  0.094 [1]	|■■■
+  0.102 [2]	|■■■■■■
+
+
+Latency distribution:
+  10% in 0.0384 secs
+  25% in 0.0481 secs
+  50% in 0.0572 secs
+  75% in 0.0646 secs
+  90% in 0.0761 secs
+  95% in 0.0969 secs
+  0% in 0.0000 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0003 secs, 0.0270 secs, 0.1018 secs
+  DNS-lookup:	0.0003 secs, 0.0000 secs, 0.0074 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
+  resp wait:	0.0566 secs, 0.0268 secs, 0.1016 secs
+  resp read:	0.0003 secs, 0.0001 secs, 0.0061 secs
+
+Status code distribution:
+  [200]	50 responses
+```
