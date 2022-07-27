@@ -24,6 +24,15 @@ A [KIND](https://kind.sigs.k8s.io/) based Kubernetes cluster on your notebook wi
 - [Grafana](http://grafana.127.0.0.1.nip.io:8080)
 - [Bookinfo](http://bookinfo.127.0.0.1.nip.io:8080/productpage)
 
+
+## Finding Traces
+
+Once the bookinfo application is deployed and has been accessed, traces should've been ingested into the system.
+Application logs can be filtered with [{namespace="bookinfo", container!~"istio-.+"} |= "Trace"](http://grafana.127.0.0.1.nip.io:8080/explore?orgId=1&left=%7B%22datasource%22:%22Loki%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bnamespace%3D%5C%22bookinfo%5C%22,%20container!~%5C%22istio-.%2B%5C%22%7D%20%7C%3D%20%5C%22Trace%5C%22%22%7D%5D,%22range%22:%7B%22from%22:%22now-1h%22,%23to%22:%22now%22%7D%7D).
+Expanding a log line reveals a button to open the trace in the famous waterfall view.
+![Screenshot](hack/pictures/tempo.png)
+
+
 ## Generating traffic
 The [hey](https://github.com/rakyll/hey) tool is easy to use and gives basic statistics on what's going on:
 
