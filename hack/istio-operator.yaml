@@ -15,6 +15,13 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
+      # Uncomment for detailed envoy metrics -> this might kill your local prometheus :)
+      # proxyStatsMatcher:
+      #   inclusionRegexps:
+      #     - ".*circuit_breakers.*"
+      #   inclusionPrefixes:
+      #     - "upstream_rq_retry"
+      #     - "upstream_cx"
       tracing:
         sampling: 100
         max_path_tag_length: 99999
