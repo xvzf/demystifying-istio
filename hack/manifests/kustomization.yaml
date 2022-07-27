@@ -1,7 +1,5 @@
 ---
-namespace: istio-system
+# namespace: istio-system
 resources:
 - gateway.yaml
 - grafana.yaml
-- kiali.yaml
-- prometheus.yaml

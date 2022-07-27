@@ -3,6 +3,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: grafana
+  namespace: istio-system
 spec:
   hosts:
   - grafana.127.0.0.1.nip.io
@@ -12,6 +13,6 @@ spec:
   - name: "default"
     route:
     - destination:
-        host: grafana.istio-system.svc.cluster.local
+        host: grafana.tracing.svc.cluster.local
         port:
-          number: 3000
+          number: 80

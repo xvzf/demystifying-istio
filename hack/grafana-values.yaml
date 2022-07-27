@@ -1,0 +1,43 @@
+datasources:
+ datasources.yaml:
+   apiVersion: 1
+   datasources:
+     - name: Tempo
+       type: tempo
+       access: browser
+       orgId: 1
+       uid: tempo
+       url: http://tempo.tracing.svc:3100
+       isDefault: true
+       editable: true
+     - name: Loki
+       type: loki
+       access: browser
+       orgId: 1
+       uid: loki
+       url: http://loki.tracing.svc:3100
+       isDefault: false
+       editable: true
+       jsonData:
+         derivedFields:
+           - datasourceName: Tempo
+             matcherRegex: "traceID=(\\w+)"
+             name: TraceID
+             url: "$${__value.raw}"
+             datasourceUid: tempo
+     - name: Prometheus
+       type: prometheus
+       access: browser
+       uid: prometheus
+       url: http://loki-prometheus-server:80
+       isDefault: false
+       editable: true
+
+env:
+ JAEGER_AGENT_PORT: 6831
+
+adminUser: admin
+adminPassword: admin
+
+service:
+ type: ClusterIP

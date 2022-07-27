@@ -3,6 +3,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: system-gateway
+  namespace: istio-system
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -12,6 +13,4 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "prometheus.127.0.0.1.nip.io"
-    - "grafana.127.0.0.1.nip.io"
-    - "kiali.127.0.0.1.nip.io"
+    - "*.127.0.0.1.nip.io"

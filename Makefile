@@ -1,6 +1,6 @@
 CLUSTER_NAME := "istio-demo"
 KIND_VERSION := "v0.14.0"
-ISTIO_VERSION := "1.14.0"
+ISTIO_VERSION := "1.14.2"
 
 .PHONY: install-kind
 install-kind:
@@ -18,7 +18,7 @@ install-istioctl:
 	rm -R istio-$(ISTIO_VERSION)
 
 .PHONY: bootstrap
-bootstrap: bootstrap-cluster bootstrap-istio
+bootstrap: bootstrap-cluster bootstrap-istio bootstrap-observability
 
 .PHONY: bootstrap-cluster
 bootstrap-cluster: install-kind
@@ -29,13 +29,21 @@ bootstrap-istio: install-istioctl ensure-context
 	# Install istio
 	.bin/istioctl install -y --verify -f hack/istio-operator.yaml
 
-	# addons for demo only!
-	kubectl apply -f https://raw.githubusercontent.com/istio/istio/$(ISTIO_VERSION)/samples/addons/grafana.yaml
-	kubectl apply -f https://raw.githubusercontent.com/istio/istio/$(ISTIO_VERSION)/samples/addons/prometheus.yaml
-	kubectl apply -f https://raw.githubusercontent.com/istio/istio/$(ISTIO_VERSION)/samples/addons/kiali.yaml
-
-	# Expose Grafana/Kialo/Prometheus
+# bootstrap observability
+.PHONY: bootstrap-observability
+bootstrap-observability:
+	# Tempo
+	helm repo add grafana https://grafana.github.io/helm-charts
+	helm repo update
+	kubectl create namespace tracing
+	helm install tempo grafana/tempo -n tracing -f hack/tempo-values.yaml
+	# Loki
+	helm install loki grafana/loki-stack -n tracing -f hack/loki-values.yaml
+	# Grafana
+	helm install grafana grafana/grafana -n tracing  -f hack/grafana-values.yaml
+	# custom manifests
 	kubectl apply -k hack/manifests
+
 
 # Teardown everything
 .PHONY: teardown

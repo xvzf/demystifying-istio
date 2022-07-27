@@ -13,6 +13,14 @@ spec:
   hub: gcr.io/istio-release
   # JSON logging can help debugging issues
   meshConfig:
+    enableTracing: true
+    defaultConfig:
+      tracing:
+        sampling: 100
+        max_path_tag_length: 99999
+        zipkin:
+          address: tempo.tracing.svc.cluster.local:9411
+
     accessLogEncoding: JSON  # Easy to parse with e.g. Loki
     accessLogFile: /dev/stdout
     # Makign all resources globally available to the mesh
