@@ -6,4 +6,4 @@ resources:
 - https://raw.githubusercontent.com/istio/istio/release-1.14/samples/bookinfo/networking/bookinfo-gateway.yaml
 - https://raw.githubusercontent.com/istio/istio/release-1.14/samples/bookinfo/networking/destination-rule-all.yaml
 patches:
-- patches/bookinfo-gateway.yaml
+  - path: patches/bookinfo-gateway.yaml

@@ -1,0 +1,11 @@
+domain: istio-ingressgateway
+descriptors:
+  - key: PATH
+    value: "/productpage"
+    rate_limit:
+      unit: minute
+      requests_per_unit: 5
+  - key: PATH
+    rate_limit:
+      unit: minute
+      requests_per_unit: 60

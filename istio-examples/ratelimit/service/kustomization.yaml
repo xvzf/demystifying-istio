@@ -1,0 +1,11 @@
+namespace: envoy-ratelimit-system
+resources:
+  - namespace.yaml
+  - ratelimit.yaml
+  - redis.yaml
+
+configMapGenerator:
+- name: ratelimit-config
+  files:
+  - ratelimit-config/config.yaml
+
